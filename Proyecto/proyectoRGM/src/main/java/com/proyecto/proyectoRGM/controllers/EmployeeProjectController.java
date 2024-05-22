@@ -26,4 +26,10 @@ public class EmployeeProjectController {
     public ResponseEntity<EmployeeProject> insertEmployeeProject(@RequestBody EmployeeProject ep){
         return employeeProjectService.insertEmployeeProject(ep);
     }
+
+    @Transactional
+    @DeleteMapping("/unassign")
+    public void unassignEmployee(@RequestBody EmployeeProject ep){
+        employeeProjectService.unassignEmployee(ep);
+    }
 }

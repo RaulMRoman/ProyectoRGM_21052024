@@ -79,7 +79,7 @@ export default {
 }
 </script>
   
-<style>
+<style scoped>
 .fieldsContainer {
     display: flex;
     flex-wrap: wrap;

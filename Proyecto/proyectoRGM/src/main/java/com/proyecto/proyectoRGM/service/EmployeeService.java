@@ -1,6 +1,8 @@
 package com.proyecto.proyectoRGM.service;
 
 import com.proyecto.proyectoRGM.entities.Employee;
+import com.proyecto.proyectoRGM.entities.EmployeeProject;
+import com.proyecto.proyectoRGM.repositories.EmployeeProjectRepository;
 import com.proyecto.proyectoRGM.repositories.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +23,9 @@ public class EmployeeService {
     //Autowired recoge todos los métodos de EmployeeRepository
     @Autowired
     private EmployeeRepository employeeRepository;
+
+    @Autowired
+    private EmployeeProjectRepository employeeProjectRepository;
 
     public EmployeeService(){
     }
@@ -105,7 +110,6 @@ public class EmployeeService {
                     HttpStatus.EXPECTATION_FAILED);
         }
 
-
     }
 
 
@@ -117,18 +121,43 @@ public class EmployeeService {
         employeeRepository.delete(empleado);
     }
 
-    //EXCEPCIÓN FECHA DATA INTEGRITY
+
+    //Método para editar la fecha de baja
 
     //@Transactional
-    public Employee editFechaBaja(String nif){
+    public ResponseEntity<String> editFechaBaja(String nif){
         //employeeRepository.updatefechaBajaByNif(empleadoUpdate.getNif(), empleadoUpdate.getDate());
 
         Employee employee = employeeRepository.findByNif(nif);
+        List<EmployeeProject> listaEP = employeeProjectRepository.findAll(); //Recupero las asignaciones
+        try{
+            if(employee!=null){
 
-        if(employee!=null){
-            employee.setFechaBaja(Date.valueOf(LocalDate.now()));
+                for(EmployeeProject e: listaEP){
+                    //Comprobar que el empleado con el nif no tiene asignado un proyecto
+                    if(e.getEmployee().getNif().equals(nif)){
+                        //Excepción que devuelve si el nif tiene proyecto asignado
+                        throw new IllegalArgumentException("No se ha podido realizar la baja. " +
+                                "El empleado con nif: "+nif+ " está asignado al proyecto con ID: "+
+                                e.getProject().getIdProyecto());
+                    }
+                }
+
+                employee.setFechaBaja(Date.valueOf(LocalDate.now()));
+                //Si el nif no tiene proyectos asignados, se guarda con la fecha actual y Status OK
+                employeeRepository.save(employee);
+                return new ResponseEntity<>("Empleado dado de baja", HttpStatus.OK);
+            }else{
+                throw new IllegalArgumentException("No se ha podido realizar la baja ");
+            }
+
+        }catch(IllegalArgumentException e){
+            System.out.println(e.getMessage()); //Comprobación en consola
+            //Response Entity con el mensaje y la excepción
+            return new ResponseEntity<>(e.getMessage() , HttpStatus.EXPECTATION_FAILED);
+
         }
-        return employeeRepository.save(employee);
+
     }
 
 }

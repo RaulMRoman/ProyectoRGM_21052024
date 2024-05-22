@@ -2,6 +2,7 @@ package com.proyecto.proyectoRGM.service;
 
 import com.proyecto.proyectoRGM.entities.EmployeeProject;
 import com.proyecto.proyectoRGM.repositories.EmployeeProjectRepository;
+import jakarta.transaction.Transactional;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,6 +42,18 @@ public class EmployeeProjectService {
             e.printStackTrace();
             return new ResponseEntity<>(employeeProjectRepository.save(ep), HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @Transactional
+    public ResponseEntity<String> unassignEmployee(EmployeeProject ep){
+        //employeeProjectRepository.unassignEmployee(idEmpleado, idProyecto);
+        try{
+            employeeProjectRepository.delete(ep);
+            return new ResponseEntity<>("Desasignación correcta", HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>("No se ha posiddo desasignar", HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     /*public ResponseEntity<EmployeeProject> updateEmployeeProject(Integer idEmpleado, Integer idProyecto){

@@ -3,30 +3,68 @@
     <h2>Alta de Proyecto</h2>
     <form @submit.prevent="insertProject" class="styleForm">
       <div class="fieldsContainer">
-        <div class="fieldMargin">
-          <label for="descripcion">Descripción: </label>
-          <input v-model="descripcion" id="descripcion" type="text" class="borderInput">
-        </div>
 
-        <div class="fieldMargin">
+        <v-col cols="12" sm="4" md="3" class="fieldMargin">
+          <v-text-field v-model="descripcion" id="descripcion" label="Descripción" type="text" />
+        </v-col>
+
+        <!-- <div class="fieldMargin">
           <label for="fechaInicio">Fecha de Inicio: </label>
-          <input v-model="fechaInicio" id="fechaInicio" type="text" class="borderInput">
+          <input v-model="fechaInicio" id="fechaInicio" type="text">
         </div>
 
         <div class="fieldMargin">
           <label for="fechaFin">Fecha de Fin: </label>
-          <input v-model="fechaFin" id="fechaFin" type="text" class="borderInput">
-        </div>
+          <input v-model="fechaFin" id="fechaFin" type="text">
+        </div> -->
+        <v-col cols="12" sm="4" md="3" class="fieldMargin">
 
-        <div class="fieldMargin">
-          <label for="lugar">Lugar: </label>
-          <input v-model="lugar" id="lugar" type="text" class="borderInput">
-        </div>
+          <v-menu ref="menufInicio" v-model="menufInicio" :close-on-content-click="false" :return-value.sync="fechaInicio"
+            transition="scale-transition" offset-y min-width="auto">
+            <template v-slot:activator="{ on, attrs }">
+              <v-text-field v-model="fechaInicio" label="Fecha de inicio" readonly v-bind="attrs"
+                v-on="on"></v-text-field>
+            </template>
+            <v-date-picker v-model="fechaInicio" no-title scrollable>
+              <v-spacer></v-spacer>
+              <v-btn text color="primary" @click="menufInicio = false">
+                Cancel
+              </v-btn>
+              <v-btn text color="primary" @click="$refs.menufInicio.save(fechaInicio)">
+                OK
+              </v-btn>
+            </v-date-picker>
+          </v-menu>
+        </v-col>
 
-        <div class="fieldMargin">
-          <label for="observaciones">Observaciones: </label>
-          <input v-model="observaciones" id="observaciones" type="text" class="borderInput">
-        </div>
+        <v-col cols="12" sm="4" md="3" class="fieldMargin">
+
+          <v-menu ref="menu" v-model="menu" :close-on-content-click="false" :return-value.sync="fechaFin"
+            transition="scale-transition" offset-y min-width="auto">
+            <template v-slot:activator="{ on, attrs }">
+              <v-text-field v-model="fechaFin" label="Fecha de finalización" readonly v-bind="attrs"
+                v-on="on"></v-text-field>
+            </template>
+            <v-date-picker v-model="fechaFin" no-title scrollable>
+              <v-spacer></v-spacer>
+              <v-btn text color="primary" @click="menu = false">
+                Cancel
+              </v-btn>
+              <v-btn text color="primary" @click="$refs.menu.save(fechaFin)">
+                OK
+              </v-btn>
+            </v-date-picker>
+          </v-menu>
+        </v-col>
+
+
+        <v-col cols="12" sm="4" md="3" class="fieldMargin">
+          <v-text-field v-model="lugar" id="lugar" label="Lugar" type="text" />
+        </v-col>
+
+        <v-col cols="12" sm="4" md="3" class="fieldMargin">
+          <v-text-field v-model="observaciones" id="observaciones" label="Observaciones" type="text" />
+        </v-col>
 
       </div>
 
@@ -48,7 +86,9 @@ export default {
       fechaInicio: '',
       fechaFin: '',
       lugar: '',
-      observaciones: ''
+      observaciones: '',
+      menufInicio: false,
+      menu: false
     }
   },
   methods: {
@@ -78,12 +118,12 @@ export default {
             fechaInicio: this.fechaInicio,
             fechaFin: this.fechaFin,
             lugar: this.lugar,
-            observaciones: this.observaciones
+            observaciones: this.observaciones,
           }
           axios.post('http://localhost:8080/projects/insert', projectInfo)
           this.$router.push('/projects')
 
-        } catch(error) {
+        } catch (error) {
           console.error("Error al guardar: ", error)
         }
 
@@ -103,7 +143,11 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+
+h2{
+  padding: 2%;
+}
 .fieldsContainer {
   display: flex;
   flex-wrap: wrap;

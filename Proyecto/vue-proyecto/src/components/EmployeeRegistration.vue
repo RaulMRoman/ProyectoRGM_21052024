@@ -2,71 +2,117 @@
   <div>
     <h2>Alta de Empleado</h2>
     <form @submit.prevent="insertEmployee" class="styleForm">
-      <div class="fieldsContainer">
-        <div class="fieldMargin">
-          <label for="NIF">NIF: </label>
-          <input v-model="nif" id="nif" type="text" class="borderInput">
-        </div>
+      <row class="fieldsContainer">
+        <v-col cols="12" sm="4" md="3" class="fieldMargin">
+          <v-text-field v-model="nif" id="nif" label="NIF" type="text" />
+        </v-col>
 
-        <div class="fieldMargin">
-          <label for="nombre">Nombre: </label>
-          <input v-model="nombre" id="nombre" type="text" class="borderInput">
-        </div>
+        <v-col cols="12" sm="4" md="3" class="fieldMargin">
+          <v-text-field v-model="nombre" id="nombre" label="Nombre" type="text" />
+        </v-col>
 
-        <div class="fieldMargin">
-          <label for="primerApellido">Primer Apellido: </label>
-          <input v-model="primerApellido" id="primerApellido" type="text" class="borderInput">
-        </div>
+        <v-col cols="12" sm="4" md="3" class="fieldMargin">
+          <v-text-field v-model="primerApellido" id="primerApellido" label="Primer Apellido" type="text" />
+        </v-col>
 
-        <div class="fieldMargin">
-          <label for="segundoApellido">Segundo Apellido: </label>
-          <input v-model="segundoApellido" id="segundoApellido" type="text" class="borderInput">
-        </div>
+        <v-col cols="12" sm="4" md="3" class="fieldMargin">
+          <v-text-field v-model="segundoApellido" id="segundoApellido" label="Segundo Apellido"
+            type="text"></v-text-field>
+        </v-col>
 
-        <div class="fieldMargin">
+        <!-- <div class="fieldMargin">
           <label for="fNacimiento">Fecha de Nacimiento: </label>
           <input v-model="fNacimiento" id="fNacimiento" type="text" class="borderInput">
-        </div>
+        </div> -->
 
-        <div class="fieldMargin">
-          <label for="telefonoUno">Primer Teléfono: </label>
-          <input v-model="telefonoUno" id="telefonoUno" type="text" class="borderInput">
-        </div>
+        <v-col cols="12" sm="4" md="3" class="fieldMargin">
 
-        <div class="fieldMargin">
-          <label for="telefonoDos">Segundo Teléfono: </label>
-          <input v-model="telefonoDos" id="telefonoDos" type="text" class="borderInput">
-        </div>
+          <v-menu ref="menu" v-model="menu" :close-on-content-click="false" :return-value.sync="fNacimiento"
+            transition="scale-transition" offset-y min-width="auto">
+            <template v-slot:activator="{ on, attrs }">
+              <v-text-field v-model="fNacimiento" label="Fecha de nacimiento" readonly v-bind="attrs"
+                v-on="on"></v-text-field>
+            </template>
+            <v-date-picker v-model="fNacimiento" no-title scrollable>
+              <v-spacer></v-spacer>
+              <v-btn text color="primary" @click="menu = false">
+                Cancel
+              </v-btn>
+              <v-btn text color="primary" @click="$refs.menu.save(fNacimiento)">
+                OK
+              </v-btn>
+            </v-date-picker>
+          </v-menu>
+        </v-col>
 
-        <div class="fieldMargin">
-          <label for="email">Email: </label>
-          <input v-model="email" id="email" type="text" class="borderInput">
-        </div>
+        <v-col cols="12" sm="4" md="3" class="fieldMargin">
+          <v-text-field v-model="telefonoUno" id="telefonoUno" label="Teléfono Uno" type="text" />
+        </v-col>
 
-        <div class="fieldMargin">
-          <label for="fechaAlta">Fecha de Alta: </label>
-          <input v-model="fechaAlta" id="fechaAlta" type="text" class="borderInput">
-        </div>
+        <v-col cols="12" sm="4" md="3" class="fieldMargin">
+          <v-text-field v-model="telefonoDos" id="telefonoDos" label="Teléfono Dos" type="text" />
+        </v-col>
 
-        <div class="fieldMargin">
-          <label for="estadoCivil">Estado Civil: </label>
-          <input v-model="estadoCivil" id="estadoCivil" type="text" class="borderInput">
-        </div>
+        <v-col cols="12" sm="4" md="3" class="fieldMargin">
+          <v-text-field v-model="email" id="email" label="Email" type="text" />
+        </v-col>
 
-        <div class="fieldMargin">
-          <label for="servMilitar">Servicio Militar: </label>
-          <input v-model="servMilitar" id="servMilitar" type="text" class="borderInput">
-        </div>
-      </div>
+        <!-- <v-col cols="12" sm="4" md="3" class="fieldMargin">
+          <v-text-field v-model="fechaAlta" id="fechaAlta" type="text"/>
+        </v-col> -->
+
+        <v-col cols="12" sm="4" md="3" class="fieldMargin">
+
+          <v-menu ref="menuAlta" v-model="menuAlta" :close-on-content-click="false" :return-value.sync="fechaAlta"
+            transition="scale-transition" offset-y min-width="auto">
+            <template v-slot:activator="{ on, attrs }">
+              <v-text-field v-model="fechaAlta" label="Fecha de Alta" readonly v-bind="attrs" v-on="on"></v-text-field>
+            </template>
+            <v-date-picker v-model="fechaAlta" no-title scrollable>
+              <v-spacer></v-spacer>
+              <v-btn text color="primary" @click="menuAlta = false">
+                Cancel
+              </v-btn>
+              <v-btn text color="primary" @click="$refs.menuAlta.save(fechaAlta)">
+                OK
+              </v-btn>
+            </v-date-picker>
+          </v-menu>
+        </v-col>
+
+        <!-- <v-col cols="12" sm="4" md="3" class="fieldMargin">
+          <v-text-field v-model="estadoCivil" id="estadoCivil" type="text" />
+        </v-col>
+
+        <v-col cols="12" sm="4" md="3" class="fieldMargin">
+          <v-text-field v-model="servMilitar" id="servMilitar" type="text" />
+        </v-col> -->
+          
+              <v-col cols="12" sm="6" md="4" class="fieldMargin">
+                <v-select :items="items" v-model="estadoCivil" id="estadoCivil" label="Estado Civil" type="text" dense></v-select>
+              </v-col>
+
+              <v-col cols="12" sm="6" md="4" class="fieldMargin">
+                <v-select :items="itemsServMilitar" v-model="servMilitar" id="servMilitar" type="text" label="Servicio Militar" dense></v-select>
+              </v-col>
+      </row>
 
       <div class="buttonsContainer">
         <v-btn type="submit" color="primary" class="btn">Aceptar</v-btn>
         <v-btn type="button" @click="close" class="btn">Cancelar</v-btn>
       </div>
-      <p v-if="errorMessage">{{ errorMessage }}</p>
+      <!-- <p v-if="errorMessage">{{ errorMessage }}</p> -->
     </form>
   </div>
 </template>
+
+<script>
+  export default {
+    data: () => ({
+      
+    }),
+  }
+</script>
 
 <script>
 import axios from 'axios'
@@ -85,9 +131,14 @@ export default {
       estadoCivil: '',
       servMilitar: '',
       errorMessage: '',
+      menu: false,
+      menuAlta: false,
+      items: ['S', 'C'],
+      itemsServMilitar: ['S', 'N'],
     }
   },
   methods: {
+    //Método checkFields para comprobar que no están vacíos
     checkFields() {
       const fields = [this.nif, this.nombre, this.primerApellido, this.segundoApellido,
       this.fNacimiento, this.telefonoUno, this.telefonoDos,
@@ -96,6 +147,7 @@ export default {
 
       return fields.every(field => field.trim() != '')
     },
+    //Solicitud de la lista de Empleados
     async getEmployees() {
       const URL = `http://localhost:8080/empleados`
 
@@ -104,13 +156,15 @@ export default {
           this.employees = response.data
         })
         .catch((error) => {
-          console.error("Error recuperando los datos: ", error)
+          console.error("Error recuperando los datos: " + error.response.data)
         })
     },
+    //Solicitud para inserción de nuevo empleado
     async insertEmployee() {
       if (this.checkFields()) {
 
         try {
+          //Asignación de valores con los que el usuario introduzca en la web
           const employeeInfo = {
             nif: this.nif,
             nombre: this.nombre,
@@ -124,17 +178,15 @@ export default {
             estadoCivil: this.estadoCivil,
             servMilitar: this.servMilitar
           }
-          const URL = `http://localhost:8080/empleados/insert`
+          //const URL = `http://localhost:8080/empleados/insert`
           await axios.post('http://localhost:8080/empleados/insert', employeeInfo)
           this.$router.push('/prueba')
 
-        } catch (error){
-          console.log(error)
+        } catch (error) {
           // alert("Error al guardar: {}", error.response.data)
           alert("Error al guardar: " + error.response.data)
-          console.log(error.response)
-          console.log(error.response.data)
-          
+          // console.log(error.response.data)
+
         }
 
         this.getEmployees();
@@ -148,12 +200,15 @@ export default {
     }
   },
   mounted() {
-    // this.getEmployees()
   }
 }
 </script>
 
-<style>
+<style scoped>
+
+h2{
+  padding: 2%;
+}
 .fieldsContainer {
   display: flex;
   flex-wrap: wrap;
@@ -175,7 +230,7 @@ export default {
 }
 
 .borderInput {
-  border: 1px solid blue;
+  border-bottom: 1px solid;
   width: 250px;
 }
 

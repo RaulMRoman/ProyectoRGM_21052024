@@ -28,7 +28,7 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
-        <v-dialog v-model="dialogDelete" max-width="500px">
+        <v-dialog v-model="dialogDelete" max-width="590px">
           <v-card>
             <v-card-title class="text-h5">¿Seguro que quieres dar de baja a este empleado?</v-card-title>
             <v-card-actions>
@@ -133,7 +133,7 @@ export default {
           this.employees = response.data
         })
         .catch((error) => {
-          console.error("Error recuperando los datos: ", error) //hacer console.log
+          console.error("Error recuperando los datos: " + error) //hacer console.log
         })
     },
 
@@ -144,14 +144,15 @@ export default {
       
     },
 
-    deleteItemConfirm() {
+    async deleteItemConfirm() {
       
       try {
-        axios.put(`http://localhost:8080/empleados/update/${this.editedItem.nif}`)
+        await axios.put(`http://localhost:8080/empleados/update/${this.editedItem.nif}`)
         this.employees.splice(this.editedIndex, 1)
 
-      } catch {
-          console.error("Error al guardar: ", error)
+      } catch(error){
+        console.log(error.response.data)
+          alert("Error: " + error.response.data)
       }
       this.closeDelete()
       

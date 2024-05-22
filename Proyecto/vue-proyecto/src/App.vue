@@ -57,7 +57,7 @@
               { title: 'Home', icon: 'mdi-home', to:'/' },
               { title: 'Empleados', icon: 'mdi-account-multiple', to: '/prueba' },
               { title: 'Proyectos', icon: 'mdi-folder', to: '/projects' },
-              { title: 'Próximamente', icon: 'mdi-help-box' },
+              { title: 'Empleados-Proyectos', icon: 'mdi-help-box', to:'/employeePro' },
           ]
       }),
   }

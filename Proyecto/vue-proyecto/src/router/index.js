@@ -7,6 +7,7 @@ import EmployeeRegistrationView from '../views/EmployeeRegistrationView'
 import EmployeeDeleteView from '../views/EmployeeDeleteView'
 import EmployeesPruebaView from '../views/EmployeesPruebaView'
 import ProjectRegistrationView from '../views/ProjectRegistrationView'
+import EmployeeProjectView from '../views/EmployeeProjectView'
 
 
 Vue.use(VueRouter)
@@ -54,6 +55,11 @@ const routes = [
     path: '/registProject',
     name: 'ProjectRegistration',
     component: ProjectRegistrationView
+  },
+  {
+    path: '/employeePro',
+    name: 'EmployeeProjectView',
+    component: EmployeeProjectView
   }
 ]
 

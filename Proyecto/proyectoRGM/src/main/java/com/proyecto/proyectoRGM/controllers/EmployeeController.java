@@ -49,7 +49,7 @@ public class EmployeeController {
 
     @Transactional
     @PutMapping(path="/update/{nif}")
-    public void editFechaBaja(@PathVariable @Valid String nif){
-        employeeService.editFechaBaja(nif);
+    public ResponseEntity<String> editFechaBaja(@PathVariable @Valid String nif){
+        return employeeService.editFechaBaja(nif);
     }
 }

@@ -39,9 +39,9 @@
     </router-link>
       <v-col
         class="primary lighten-2 py-4 text-center white--text"
-        cols="12"
+        cols="12" height="150px"
       >
-        {{ new Date().getFullYear() }} — <strong>Vuetify</strong>
+        {{ new Date().getFullYear() }} — <strong>Future Space (Raúl Gallego Montes)</strong>
       </v-col>
     </v-row>
   </v-footer>
